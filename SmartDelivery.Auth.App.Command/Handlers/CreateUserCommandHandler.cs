@@ -7,7 +7,7 @@ namespace SmartDelivery.Auth.App.Command.Handlers
     {
         public void Handle(CreateUserCommand command) 
         {
-
+            
         }
     }
 }

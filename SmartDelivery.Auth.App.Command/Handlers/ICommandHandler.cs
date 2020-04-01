@@ -3,8 +3,8 @@ using SmartDelivery.Auth.App.Command.Dto;
 
 namespace SmartDelivery.Auth.App.Command.Handlers
 {
-    public interface ICommandHandler<T> where T : ICommand
+    public interface ICommandHandler<TCommand> where TCommand : ICommand
     {
-        void Handle(T command);
+        void Handle(TCommand command);
     }
 }

@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\SmartDelivery.Auth.Domain.Model\SmartDelivery.Auth.Domain.Model.csproj"/>
-    <ProjectReference Include="..\SmartDelivery.Auth.Domain.Repositories\SmartDelivery.Auth.Domain.Repositories.csproj"/>
-    <ProjectReference Include="..\SmartDelivery.Auth.App.Command\SmartDelivery.Auth.App.Command.csproj"/>
+    <ProjectReference Include="..\SmartDelivery.Auth.Domain.Model\SmartDelivery.Auth.Domain.Model.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.Domain.Repositories\SmartDelivery.Auth.Domain.Repositories.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.App.Command\SmartDelivery.Auth.App.Command.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.Tests.Repository\SmartDelivery.Auth.Tests.Repository.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.1.20120.4"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.1.20120.4" />
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>

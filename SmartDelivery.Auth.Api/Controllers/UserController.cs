@@ -16,15 +16,17 @@ namespace SmartDelivery.Auth.Api.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
 
-        public UserController(ILogger<WeatherForecastController> logger)
+        public UserController(ILogger<WeatherForecastController> logger, ICommandHandler<CreateUserCommand> createUserCommandHandler)
         {
+            _createUserCommandHandler = createUserCommandHandler;
             _logger = logger;
         }
 
         [HttpPost]
-        public IActionResult Post(CreateUserCommand command)
+        public IActionResult Post([FromBody]CreateUserCommand command)
         {
-            return Ok();
+            _createUserCommandHandler.Handle(command);
+            return Ok(command);
         }
     }
 }

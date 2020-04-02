@@ -13,10 +13,10 @@ namespace SmartDelivery.Auth.Api.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<UserController> _logger;
         private readonly ICommandHandler<CreateUserCommand> _createUserCommandHandler;
 
-        public UserController(ILogger<WeatherForecastController> logger, ICommandHandler<CreateUserCommand> createUserCommandHandler)
+        public UserController(ILogger<UserController> logger, ICommandHandler<CreateUserCommand> createUserCommandHandler)
         {
             _createUserCommandHandler = createUserCommandHandler;
             _logger = logger;

@@ -9,7 +9,6 @@ namespace SmartDelivery.Auth.Tests.Repository
         public void Insert(User user)
         {
             user.SetId("1");
-            //throw new NotImplementedException();
         }
     }
 }

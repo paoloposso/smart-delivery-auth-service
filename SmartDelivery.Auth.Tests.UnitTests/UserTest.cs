@@ -11,10 +11,12 @@ namespace SmartDelivery.Auth.Tests.UnitTests
     public class UserTest
     {
         private CreateUserCommandHandler _createUserCommand;
+        private LoginCommandHandler _loginCommandHandler;
 
         public UserTest()
         {
             _createUserCommand = new CreateUserCommandHandler(new UserRepository());
+            _loginCommandHandler = new LoginCommandHandler();
         }
 
         [TestMethod]
@@ -45,6 +47,19 @@ namespace SmartDelivery.Auth.Tests.UnitTests
             _createUserCommand.Handle(command);
 
             Assert.AreNotEqual(null, command.Id);
+        }
+
+        [TestMethod]
+        public void ShouldReturnToken()
+        {
+            var command = new LoginCommand() {
+                Email = "pvictorsys@gmail.com",
+                Password = "123456"
+            };
+
+            _loginCommandHandler.Handle(command);
+
+            Assert.IsFalse(string.IsNullOrEmpty(command.Token));
         }
     }
 }

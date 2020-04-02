@@ -17,6 +17,7 @@ namespace SmartDelivery.Auth.CrossCutting.DI
         public void RegisterCommands(IServiceCollection services)
         {
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
+            services.AddTransient<ICommandHandler<LoginCommand>, LoginCommandHandler>();
         }
     }
 }

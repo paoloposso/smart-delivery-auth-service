@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
 using SmartDelivery.Auth.Domain.Repositories;
-using SmartDelivery.Auth.Tests.Repository;
+using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
 
 namespace SmartDelivery.Auth.CrossCutting.DI
 {

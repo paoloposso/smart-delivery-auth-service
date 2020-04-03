@@ -4,6 +4,7 @@ using SmartDelivery.Auth.App.Command;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
 using SmartDelivery.Auth.Tests.Repository;
+using InfraDb = SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
 
 namespace SmartDelivery.Auth.Tests.UnitTests
 {

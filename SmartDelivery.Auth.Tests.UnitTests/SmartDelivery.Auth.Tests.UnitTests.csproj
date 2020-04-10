@@ -16,5 +16,6 @@
     <ProjectReference Include="..\SmartDelivery.Auth.Domain.Repositories\SmartDelivery.Auth.Domain.Repositories.csproj" />
     <ProjectReference Include="..\SmartDelivery.Auth.Tests.Repository\SmartDelivery.Auth.Tests.Repository.csproj" />
     <ProjectReference Include="..\SmartDelivery.Auth.Infrastructure.Repositories.MongoDb\SmartDelivery.Auth.Infrastructure.Repositories.MongoDb.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.Domain.Services\SmartDelivery.Auth.Domain.Services.csproj" />
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace SmartDelivery.Auth.Domain.Model
         public string FullName { get; }
         public string Document { get; }
         public string Email { get; }
-        public string Password 
+        public string Password
         { 
             get { return ComputeSha256Hash(_password); }
             set { _password = value; } 

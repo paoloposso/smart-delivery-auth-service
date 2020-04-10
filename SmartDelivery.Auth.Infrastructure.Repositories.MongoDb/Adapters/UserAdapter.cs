@@ -19,5 +19,10 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb.Adapters
 
             return entity;
         }
+
+        public User Adapt(UserEntity entity)
+        {
+            return new User(entity.FullName, entity.Document, entity.Email, entity.Password, entity.Id.ToString());
+        }
     }
 }

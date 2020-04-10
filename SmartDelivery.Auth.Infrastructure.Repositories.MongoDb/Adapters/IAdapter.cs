@@ -7,5 +7,6 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb.Adapters
         where TIModel : IModel where TMongoEntity: BaseEntity
     {
         TMongoEntity Adapt(TIModel model);
+        TIModel Adapt(TMongoEntity entity);
     }
 }

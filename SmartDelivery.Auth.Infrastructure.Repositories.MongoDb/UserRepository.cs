@@ -16,7 +16,7 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
         {
             _adapter = new UserAdapter();
             _client = new MongoClient("mongodb://192.168.99.100:27017");
-            _database = _client.GetDatabase("SmartDeliveryAuth");
+            _database = _client.GetDatabase("SmartDeliveryAuthDev");
         }
 
         public void Insert(User model)
@@ -28,6 +28,15 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
             collection.InsertOne(entity);
 
             model.SetId(entity.Id.ToString());
+        }
+
+        public User Get(User user)
+        {
+            IMongoCollection<UserEntity> collection = _database.GetCollection<UserEntity>("users");
+
+            var entity = collection.Find(f => f.Email == user.Email).First();
+
+            return _adapter.Adapt(entity);
         }
     }
 }

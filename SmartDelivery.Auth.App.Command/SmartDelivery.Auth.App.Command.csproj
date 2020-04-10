@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SmartDelivery.Auth.Domain.Repositories\SmartDelivery.Auth.Domain.Repositories.csproj" />
     <ProjectReference Include="..\SmartDelivery.Auth.Domain.Model\SmartDelivery.Auth.Domain.Model.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.Domain.Services\SmartDelivery.Auth.Domain.Services.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

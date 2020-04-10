@@ -1,5 +1,6 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver;
 using SmartDelivery.Auth.App.Command;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
@@ -19,9 +20,9 @@ namespace SmartDelivery.Auth.Tests.UnitTests
 
         public UserTest()
         {
-            _createUserCommand = new CreateUserCommandHandler(new UserRepository());
-            _loginCommandHandler = new LoginCommandHandler(new UserRepository(), new LoginService());
-            _userRepository = new UserRepository();
+            _userRepository = new UserRepository("mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb");
+            _createUserCommand = new CreateUserCommandHandler(_userRepository);
+            _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService());
         }
 
         [TestMethod]
@@ -70,10 +71,37 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         [TestMethod]
         public void ShouldReturnUser()
         {
-            var user = _userRepository.Get(new User(null, null, "pvictorsys@gmail.com", null));
+            var user = _userRepository.Get(new User(null, null, "pvictorsys@gmail.com", "123456"));
+
+            Console.Write($"userid: {user.Id}");
 
             Assert.AreNotEqual(null, user);
             Assert.AreEqual("pvictorsys@gmail.com", user.Email);
+        }
+
+        [TestMethod]
+        public void ShouldNotReturnUser_IncorrectPassword()
+        {
+            var user = _userRepository.Get(new User(null, null, "pvictorsys@gmail.com", "12345"));
+
+            Assert.AreEqual(null, user);
+        }
+
+        [TestMethod]
+        public void ShouldReturnUser_ById()
+        {
+            var user = _userRepository.Get("5e90f0e7b83cdc40f88bba27");
+
+            Assert.AreNotEqual(null, user);
+            Assert.AreEqual("pvictorsys@gmail.com", user.Email);
+        }
+
+        [TestMethod]
+        public void ShouldNotReturnUser_ById()
+        {
+            var user = _userRepository.Get("5e90f0e7b83cdc40f88bba2x");
+
+            Assert.AreEqual(null, user);
         }
     }
 }

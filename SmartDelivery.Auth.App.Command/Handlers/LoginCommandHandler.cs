@@ -21,10 +21,10 @@ namespace SmartDelivery.Auth.App.Command.Handlers
         {
             var user = UserRepository.Get(new User(null, null, command.Email, command.Password));
 
-            if (user != null && string.IsNullOrEmpty(user.Id))
+            if (user != null && !string.IsNullOrEmpty(user.Id))
             {
                 var login = new Login();
-                login.SetPayload(user.Id, "test", DateTime.Now, user.Email);
+                login.SetPayload(user.Id, "test", DateTime.Now.AddMinutes(30), user.Email);
 
                 command.Token = LoginService.GenerateToken(login);
             }

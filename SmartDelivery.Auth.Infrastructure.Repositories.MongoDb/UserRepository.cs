@@ -6,17 +6,13 @@ using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb.Adapters;
 
 namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
-        private IMongoClient _client;
-        private IMongoDatabase _database;
         private IAdapter<User, UserEntity> _adapter;
 
-        public UserRepository()
+        public UserRepository(string connectionString) : base(connectionString)
         {
             _adapter = new UserAdapter();
-            _client = new MongoClient("mongodb://192.168.99.100:27017");
-            _database = _client.GetDatabase("SmartDeliveryAuthDev");
         }
 
         public void Insert(User model)
@@ -34,7 +30,16 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
         {
             IMongoCollection<UserEntity> collection = _database.GetCollection<UserEntity>("users");
 
-            var entity = collection.Find(f => f.Email == user.Email).First();
+            var entity = collection.Find(f => f.Email == user.Email && f.Password == user.Password).FirstOrDefault();
+
+            return _adapter.Adapt(entity);
+        }
+
+        public User Get(string id)
+        {
+            IMongoCollection<UserEntity> collection = _database.GetCollection<UserEntity>("users");
+
+            var entity = collection.Find(f => f.Id == MongoDB.Bson.ObjectId.Parse(id)).FirstOrDefault();
 
             return _adapter.Adapt(entity);
         }

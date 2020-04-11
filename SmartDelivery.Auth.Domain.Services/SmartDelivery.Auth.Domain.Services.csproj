@@ -3,7 +3,6 @@
     <ProjectReference Include="..\SmartDelivery.Auth.Domain.Model\SmartDelivery.Auth.Domain.Model.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.IdentityModel.Tokens" Version="5.0.0-rc1-211161024"/>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.0"/>
   </ItemGroup>
   <PropertyGroup>

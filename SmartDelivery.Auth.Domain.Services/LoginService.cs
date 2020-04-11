@@ -24,7 +24,7 @@ namespace SmartDelivery.Auth.Domain.Services
             };
 
             var tokenConfig = new JwtSecurityToken(
-               issuer: "SmartDelivery.Auth", //TODO: add to config file 
+               issuer: pay.Iss, //TODO: add to config file 
                audience: null,
                claims: claims,
                expires: pay.Exp,

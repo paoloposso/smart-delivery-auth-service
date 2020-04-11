@@ -1,10 +1,12 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Driver;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
 using SmartDelivery.Auth.Domain.Model;
 using SmartDelivery.Auth.Domain.Services;
 using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
+using NUnit.Framework;
 
 namespace SmartDelivery.Auth.Tests.UnitTests
 {
@@ -15,11 +17,20 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         private LoginCommandHandler _loginCommandHandler;
         private UserRepository _userRepository;
 
+        private string InsertedId = string.Empty;
+
         public UserTest()
         {
-            _userRepository = new UserRepository("mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb");
+            var cnnString = "mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb";
+
+            _userRepository = new UserRepository(cnnString);
             _createUserCommand = new CreateUserCommandHandler(_userRepository);
             _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService());
+
+            var mongoUrl = new MongoUrl(cnnString);
+
+            var database = new MongoClient(mongoUrl).GetDatabase(mongoUrl.DatabaseName);
+            database.DropCollection("users");
         }
 
         [TestMethod]
@@ -57,7 +68,8 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var command = new LoginCommand() {
                 Email = "pvictorsys@gmail.com",
-                Password = "123456"
+                Password = "123456",
+                Issuer = "delivery"
             };
 
             _loginCommandHandler.Handle(command);
@@ -70,7 +82,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var user = _userRepository.Get(new User(null, null, "pvictorsys@gmail.com", "123456"));
 
-            Console.Write($"userid: {user.Id}");
+            InsertedId = user.Id;
 
             Assert.AreNotEqual(null, user);
             Assert.AreEqual("pvictorsys@gmail.com", user.Email);
@@ -87,7 +99,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         [TestMethod]
         public void ShouldReturnUser_ById()
         {
-            var user = _userRepository.Get("5e90f0e7b83cdc40f88bba27");
+            var user = _userRepository.Get(InsertedId);
 
             Assert.AreNotEqual(null, user);
             Assert.AreEqual("pvictorsys@gmail.com", user.Email);

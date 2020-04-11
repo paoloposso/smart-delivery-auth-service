@@ -130,7 +130,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         }
 
         [Test]
-        public void ShouldReturnUser_ById()
+        public void ShouldReturnUserById()
         {
             var user = _userRepository.Get(InsertedId);
 
@@ -138,12 +138,12 @@ namespace SmartDelivery.Auth.Tests.UnitTests
             Assert.AreEqual("pvictorsys@gmail.com", user.Email);
         }
 
-        // [Test]
-        // public void ShouldNotReturnUser_ById()
-        // {
-        //     var user = _userRepository.Get("5e90f0e7b83cdc40f88bba2x");
+        [Test]
+        public void ShouldNotReturnUserByIdInvalidId()
+        {
+            var user = _userRepository.Get("5e91fca7909f081e34400462");
 
-        //     Assert.AreEqual(null, user);
-        // }
+            Assert.AreEqual(null, user);
+        }
     }
 }

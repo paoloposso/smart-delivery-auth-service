@@ -1,13 +1,10 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MongoDB.Driver;
-using SmartDelivery.Auth.App.Command;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
 using SmartDelivery.Auth.Domain.Model;
 using SmartDelivery.Auth.Domain.Services;
 using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
-using InfraDb = SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
 
 namespace SmartDelivery.Auth.Tests.UnitTests
 {

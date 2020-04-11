@@ -24,15 +24,15 @@ namespace SmartDelivery.Auth.Domain.Model
     public class Payload
     {
         public string Email { get; }
-        public string Subject { get; }
-        public string Issuer { get; }
-        public  DateTime Expiration { get; }
+        public string Sub { get; }
+        public string Iss { get; }
+        public  DateTime Exp { get; }
 
         public Payload(string subject, string issuer, DateTime expiration, string email)
         {
-            Subject = subject;
-            Issuer = issuer;
-            Expiration = expiration;
+            Sub = subject;
+            Iss = issuer;
+            Exp = expiration;
             Email = email;
         }
     }

@@ -25,8 +25,15 @@ namespace SmartDelivery.Auth.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]LoginCommand command)
         {
-            _loginCommandHandler.Handle(command);
-            return Ok(command);
+            try
+            {
+                _loginCommandHandler.Handle(command);
+                return Ok(command);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
         }
     }
 }

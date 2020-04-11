@@ -40,7 +40,7 @@ namespace SmartDelivery.Auth.App.Command.Handlers
                 errors.Append("Email is required");
 
             if (errors.Length > 0)
-                throw new ApplicationException(errors.ToString());
+                throw new ArgumentException(errors.ToString());
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Text;
 using SmartDelivery.Auth.Domain.Model;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,8 +12,7 @@ namespace SmartDelivery.Auth.Domain.Services
         //TODO: refactor and separate into a strategy class
         private Func<Payload,string> GenarationAlgorythm = (Payload pay) => {
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("sjf789fdf7wye78eghwe")); //TODO: add to config file
-            var creds = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature);
+            var encodedSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes("sdhsaiuysf9doasjoshfuisdhfidfsdf9sd8fyhsfisdfguydfts7d6937"));
 
             var claims = new[]
             {
@@ -23,20 +21,19 @@ namespace SmartDelivery.Auth.Domain.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
+            var secret = Convert.FromBase64String(encodedSecret);
+
             var tokenConfig = new JwtSecurityToken(
                issuer: pay.Iss, //TODO: add to config file 
                audience: null,
                claims: claims,
                expires: pay.Exp,
-               signingCredentials: new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature));
+               signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256));
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokenConfig);
 
             return token;
         };
-
-        public SecurityKey Key { get; }
-        public SigningCredentials SigningCredentials { get; }
 
         public string GetToken(Login login)
         {

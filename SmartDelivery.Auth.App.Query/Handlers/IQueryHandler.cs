@@ -2,8 +2,8 @@ using SmartDelivery.Auth.App.Query.Dto;
 
 namespace SmartDelivery.Auth.App.Query.Handlers
 {
-    public interface IQueryHandler<TQuery> where TQuery : IQuery
+    public interface IQueryHandler<TQuery, TInfo> where TQuery : IQuery where TInfo : IInfo
     {
-        void Handle(TQuery query);
+        TInfo Handle(TQuery query);
     }
 }

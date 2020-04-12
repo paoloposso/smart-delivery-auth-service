@@ -5,24 +5,35 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using SmartDelivery.Auth.Domain.Services.Strategies;
+using SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration;
 
 namespace SmartDelivery.Auth.Domain.Services
 {
     public class LoginService
     {
-        //TODO: refactor and separate into a strategy class
-        private Func<Payload,string> GenarationAlgorythm;
+        //TODO: refactor and separate into a strategy class and abstract the strategy
+        private Func<Payload,string> TokenGenarationAlgorythm;
+        private Func<string,Payload> GetPayloadByTokenAlgorythm;
+
+        ITokenGeneratorStrategy _tokenGenerationStrategy;
 
         public LoginService()
         {
-            GenarationAlgorythm += JwtStrategy.GenerateToken;
+            _tokenGenerationStrategy = new JwtTokenGeneratorStrategy();
+            TokenGenarationAlgorythm += _tokenGenerationStrategy.GenerateToken;
+            GetPayloadByTokenAlgorythm += _tokenGenerationStrategy.GetPayloadByToken;
+        }
+
+        public Payload GetUserInfoByToken(string token)
+        {
+            return GetPayloadByTokenAlgorythm?.Invoke(token);
         }
 
         public string GetToken(Login login)
         {
             ValidateLogin(login);
 
-            return GenarationAlgorythm(login.Payload);
+            return TokenGenarationAlgorythm?.Invoke(login.Payload);
         }
 
         private void ValidateLogin(Login login)

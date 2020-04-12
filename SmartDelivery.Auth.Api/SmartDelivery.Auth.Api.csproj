@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartDelivery.Auth.CrossCutting.DI\SmartDelivery.Auth.CrossCutting.DI.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.App.Command\SmartDelivery.Auth.App.Command.csproj" />
+    <ProjectReference Include="..\SmartDelivery.Auth.App.Query\SmartDelivery.Auth.App.Query.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

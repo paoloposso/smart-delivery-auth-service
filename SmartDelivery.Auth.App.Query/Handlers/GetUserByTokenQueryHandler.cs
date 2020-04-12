@@ -1,12 +1,21 @@
 using SmartDelivery.Auth.App.Query.Dto;
+using SmartDelivery.Auth.Domain.Services;
 
 namespace SmartDelivery.Auth.App.Query.Handlers
 {
-    public class GetUserByTokenQueryHandler : IQueryHandler<GetUserByTokenQuery>
+    public class GetUserByTokenQueryHandler : IQueryHandler<GetUserByTokenQuery, GetUserByTokenInfo>
     {
-        public void Handle(GetUserByTokenQuery query)
+        LoginService _loginService;
+
+        public GetUserByTokenQueryHandler(LoginService loginService)
         {
-            throw new System.NotImplementedException();
+            _loginService = loginService;
+        }
+
+        public GetUserByTokenInfo Handle(GetUserByTokenQuery query)
+        {
+            _loginService.GetUserInfoByToken(query.Token);
+            return null;
         }
     }
 }

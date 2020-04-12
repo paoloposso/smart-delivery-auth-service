@@ -2,10 +2,13 @@ using System;
 using MongoDB.Driver;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
+using SmartDelivery.Auth.App.Query.Dto;
+using SmartDelivery.Auth.App.Query.Handlers;
 using SmartDelivery.Auth.Domain.Model;
 using SmartDelivery.Auth.Domain.Services;
 using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
 using NUnit.Framework;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SmartDelivery.Auth.Tests.UnitTests
 {
@@ -144,6 +147,25 @@ namespace SmartDelivery.Auth.Tests.UnitTests
             var user = _userRepository.Get("5e91fca7909f081e34400462");
 
             Assert.AreEqual(null, user);
+        }
+
+        [Test]
+        public void ShouldGetUserByToken()
+        {
+            var handler = new GetUserByTokenQueryHandler(new LoginService());
+            handler.Handle(new GetUserByTokenQuery {
+                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOGEzZGU5ZjQtZWFhOC00YzNkLWIxNWItMmIwOGE4N2UxMjliIiwiZXhwIjoxNTg2NjY1MTE0LCJpc3MiOiJkZWxpdmVyeSJ9.jC5FtPDwn4Qs9gz6hrgaXttoXA59y75N2mZbJjzg1oc"
+            });
+        }
+
+        [Test]
+        public void ShouldThrowSecurityTokenExpiredException()
+        {
+            var handler = new GetUserByTokenQueryHandler(new LoginService());
+
+            Assert.That(() => handler.Handle(new GetUserByTokenQuery {
+                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOGEzZGU5ZjQtZWFhOC00YzNkLWIxNWItMmIwOGE4N2UxMjliIiwiZXhwIjoxNTg2NjY1MTE0LCJpc3MiOiJkZWxpdmVyeSJ9.jC5FtPDwn4Qs9gz6hrgaXttoXA59y75N2mZbJjzg1oc"
+            }), Throws.TypeOf<SecurityTokenExpiredException>());
         }
     }
 }

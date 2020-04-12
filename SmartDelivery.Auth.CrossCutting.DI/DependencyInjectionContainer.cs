@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
+using SmartDelivery.Auth.App.Query.Dto;
+using SmartDelivery.Auth.App.Query.Handlers;
 using SmartDelivery.Auth.Domain.Repositories;
 using SmartDelivery.Auth.Domain.Services;
 using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
@@ -13,7 +15,7 @@ namespace SmartDelivery.Auth.CrossCutting.DI
         public void Register(IServiceCollection services) {
             RegisterCommands(services);
             RegisterServices(services);
-            services.AddTransient<IUserRepository, UserRepository>(); 
+            services.AddSingleton<IUserRepository>(r => new UserRepository("mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb")); 
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -25,6 +27,7 @@ namespace SmartDelivery.Auth.CrossCutting.DI
         {
             services.AddTransient<ICommandHandler<CreateUserCommand>, CreateUserCommandHandler>();
             services.AddTransient<ICommandHandler<LoginCommand>, LoginCommandHandler>();
+            services.AddTransient<IQueryHandler<GetUserByTokenQuery, GetUserByTokenInfo>, GetUserByTokenQueryHandler>();
         }
     }
 }

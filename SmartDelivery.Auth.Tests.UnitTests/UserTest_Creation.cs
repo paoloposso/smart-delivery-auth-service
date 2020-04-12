@@ -154,7 +154,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var handler = new GetUserByTokenQueryHandler(new LoginService());
             handler.Handle(new GetUserByTokenQuery {
-                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOGEzZGU5ZjQtZWFhOC00YzNkLWIxNWItMmIwOGE4N2UxMjliIiwiZXhwIjoxNTg2NjY1MTE0LCJpc3MiOiJkZWxpdmVyeSJ9.jC5FtPDwn4Qs9gz6hrgaXttoXA59y75N2mZbJjzg1oc"
+                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOWU4NmFhNmQtYTY2NC00MDYyLTgzOWQtYmM0NzY0ZDg2N2E4IiwiZXhwIjoxNTg2NjY3ODQ5LCJpc3MiOiJkZWxpdmVyeSJ9.TjvtJ5gvYwrOsUU8QtwraV87wkTCb-bmPNoGxP9Dy0U"
             });
         }
 

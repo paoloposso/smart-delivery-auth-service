@@ -46,15 +46,22 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
+                ValidateIssuer = true,
+                ValidIssuer = "delivery",
                 ValidateAudience = false
             };
 
             var claims = handler.ValidateToken(token, validations, out var tokenSecure);
 
-            var res = handler.ReadJwtToken(token);
+            var tok = (JwtSecurityToken)tokenSecure;
 
-            return null;
+            return new Payload(tok.Payload["sub"].ToString(), tok.Payload["iss"].ToString(), DateTime.Now, tok.Payload["unique_name"].ToString());
         }
     }
 }
+
+// [0] [KeyValuePair]:{[unique_name, pvictorsys@gmail.com]}
+// [1] [KeyValuePair]:{[sub, 5e928f5fd490c82ef854500c]}
+// [2] [KeyValuePair]:{[jti, 9e86aa6d-a664-4062-839d-bc4764d867a8]}
+// [3] [KeyValuePair]:{[exp, 1586667849]}
+// [4] [KeyValuePair]:{[iss, delivery]}

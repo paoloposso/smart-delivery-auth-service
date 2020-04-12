@@ -14,8 +14,12 @@ namespace SmartDelivery.Auth.App.Query.Handlers
 
         public GetUserByTokenInfo Handle(GetUserByTokenQuery query)
         {
-            _loginService.GetUserInfoByToken(query.Token);
-            return null;
+            var payload = _loginService.GetUserInfoByToken(query.Token);
+            
+            return new GetUserByTokenInfo() {
+                Email = payload.Email,
+                Id = payload.Sub
+            };
         }
     }
 }

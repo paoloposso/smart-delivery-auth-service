@@ -20,8 +20,6 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         private UserRepository _userRepository;
         private IMongoDatabase _database;
 
-        private string InsertedId = string.Empty;
-
         public UserTest_Creation()
         {
             var cnnString = "mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb";
@@ -36,10 +34,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         }
 
         [SetUp]
-        public void SetUp()
-        {
-            
-        }
+        public void SetUp() {}
 
         [Test]
         public void ShouldInsertUser()
@@ -59,11 +54,11 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         }
 
         [Test]
-        public void ShouldThrowApplicationExceptionWhenUserNotComplete()
+        public void ShouldThrowAgumentExceptionWhenUserNotComplete()
         {
             var command = new CreateUserCommand() {
                 Document = "33880317895",
-                Email = "pvictorsys2@gmail.com",
+                Email = "pvictorsys@gmail.com",
                 Password = "123456"
             };
 
@@ -73,8 +68,6 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         [Test]
         public void ShouldInsertSecondUser()
         {
-            _database.DropCollection("users");
-
             var command = new CreateUserCommand() {
                 Document = "01234567890",
                 Email = "pvictorsys2@gmail.com",
@@ -118,8 +111,6 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var user = _userRepository.Get(new User(null, null, "pvictorsys@gmail.com", "123456"));
 
-            InsertedId = user.Id;
-
             Assert.AreNotEqual(null, user);
             Assert.AreEqual("pvictorsys@gmail.com", user.Email);
         }
@@ -133,29 +124,11 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         }
 
         [Test]
-        public void ShouldReturnUserById()
-        {
-            var user = _userRepository.Get(InsertedId);
-
-            Assert.AreNotEqual(null, user);
-            Assert.AreEqual("pvictorsys@gmail.com", user.Email);
-        }
-
-        [Test]
         public void ShouldNotReturnUserByIdInvalidId()
         {
             var user = _userRepository.Get("5e91fca7909f081e34400462");
 
             Assert.AreEqual(null, user);
-        }
-
-        [Test]
-        public void ShouldGetUserByToken()
-        {
-            var handler = new GetUserByTokenQueryHandler(new LoginService());
-            handler.Handle(new GetUserByTokenQuery {
-                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOWU4NmFhNmQtYTY2NC00MDYyLTgzOWQtYmM0NzY0ZDg2N2E4IiwiZXhwIjoxNTg2NjY3ODQ5LCJpc3MiOiJkZWxpdmVyeSJ9.TjvtJ5gvYwrOsUU8QtwraV87wkTCb-bmPNoGxP9Dy0U"
-            });
         }
 
         [Test]

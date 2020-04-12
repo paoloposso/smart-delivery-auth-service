@@ -17,12 +17,17 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
             _adapter = new UserAdapter();
 
             _collection = _database.GetCollection<UserEntity>("users");
-            
+
+            CreateIndexes();
+        }
+
+        private async void CreateIndexes()
+        {
             var indexOptions = new CreateIndexOptions { Unique = true };
             var keys = Builders<UserEntity>.IndexKeys.Ascending("email");
-            var mongoModel = new CreateIndexModel<UserEntity>(keys, indexOptions);
+            var createIndexModel = new CreateIndexModel<UserEntity>(keys, indexOptions);
 
-            _collection.Indexes.CreateOne(mongoModel);
+            await _collection.Indexes.CreateOneAsync(createIndexModel);
         }
 
         public void Insert(User model)

@@ -47,7 +47,7 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer = "delivery",
+                ValidIssuer = "delivery", //TODO: add to a config file
                 ValidateAudience = false
             };
 
@@ -59,9 +59,3 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
         }
     }
 }
-
-// [0] [KeyValuePair]:{[unique_name, pvictorsys@gmail.com]}
-// [1] [KeyValuePair]:{[sub, 5e928f5fd490c82ef854500c]}
-// [2] [KeyValuePair]:{[jti, 9e86aa6d-a664-4062-839d-bc4764d867a8]}
-// [3] [KeyValuePair]:{[exp, 1586667849]}
-// [4] [KeyValuePair]:{[iss, delivery]}

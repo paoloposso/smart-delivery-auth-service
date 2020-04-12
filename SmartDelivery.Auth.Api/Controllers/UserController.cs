@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
 using SmartDelivery.Auth.App.Query.Dto;
@@ -52,11 +53,23 @@ namespace SmartDelivery.Auth.Api.Controllers
         [Route("Me/{token}")]
         public IActionResult Get(string token)
         {
-            var info = _getUserByTokenHandler.Handle(new GetUserByTokenQuery {
-                Token = token
-            });
+            try
+            {
+                var info = _getUserByTokenHandler.Handle(new GetUserByTokenQuery {
+                    Token = token
+                });
 
-            return Ok(info);
+                if (string.IsNullOrEmpty(info.Email))
+                {
+                    return NotFound();
+                }
+
+                return Ok(info);
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return Unauthorized();
+            }
         }
     }
 }

@@ -12,16 +12,25 @@ namespace SmartDelivery.Auth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            AppSettings = new AppSettings
+            {
+                MongoDbCnnString = Configuration.GetSection("ConnectionStrings").GetValue<string>("MongoConnection"),
+                AllowedHosts = Configuration.GetValue<string>("AllowedHosts"),
+                JwtExpirationTimeInMinutes = Configuration.GetSection("JwtConfig").GetValue<int>("TokenExpirationInMinutes"),
+                JwtSecret = Configuration.GetSection("JwtConfig").GetValue<string>("Secret")
+            };
         }
 
         public IConfiguration Configuration { get; }
+        private AppSettings AppSettings { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            new DependencyInjectionContainer().Register(services);
+            new DependencyInjectionContainer(AppSettings).Register(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

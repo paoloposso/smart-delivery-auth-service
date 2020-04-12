@@ -6,21 +6,32 @@ using SmartDelivery.Auth.App.Query.Dto;
 using SmartDelivery.Auth.App.Query.Handlers;
 using SmartDelivery.Auth.Domain.Repositories;
 using SmartDelivery.Auth.Domain.Services;
+using SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration;
 using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
 
 namespace SmartDelivery.Auth.CrossCutting.DI
 {
     public class DependencyInjectionContainer
     {
-        public void Register(IServiceCollection services) {
+        private AppSettings _appSettings;
+
+        public DependencyInjectionContainer(AppSettings appSettings)
+        {
+            _appSettings = appSettings;
+        }
+
+        public void Register(IServiceCollection services)
+        {
             RegisterCommands(services);
             RegisterServices(services);
-            services.AddSingleton<IUserRepository>(r => new UserRepository("mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb")); 
+            services.AddSingleton<IUserRepository>(r => new UserRepository(_appSettings.MongoDbCnnString)); 
+            services.AddTransient<AppSettings>(r => _appSettings);
         }
 
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<LoginService>();
+            services.AddTransient<ITokenGeneratorStrategy>(s => new JwtTokenGeneratorStrategy(_appSettings.JwtSecret));
         }
 
         public void RegisterCommands(IServiceCollection services)

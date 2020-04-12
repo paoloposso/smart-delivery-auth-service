@@ -9,6 +9,7 @@ using SmartDelivery.Auth.Domain.Services;
 using SmartDelivery.Auth.Infrastructure.Repositories.MongoDb;
 using NUnit.Framework;
 using Microsoft.IdentityModel.Tokens;
+using SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration;
 
 namespace SmartDelivery.Auth.Tests.UnitTests
 {
@@ -19,6 +20,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         private LoginCommandHandler _loginCommandHandler;
         private UserRepository _userRepository;
         private IMongoDatabase _database;
+        private string _jwtSecret = "d4s56d4ss7fsd8fsdf4fsdFFgkfpok45jioifn";
 
         public UserTest_Creation()
         {
@@ -26,7 +28,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
 
             _userRepository = new UserRepository(cnnString);
             _createUserCommand = new CreateUserCommandHandler(_userRepository);
-            _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService());
+            _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService(new JwtTokenGeneratorStrategy(_jwtSecret)));
 
             var mongoUrl = new MongoUrl(cnnString);
 
@@ -85,8 +87,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var command = new LoginCommand() {
                 Email = "pvictorsys@gmail.com",
-                Password = "123456",
-                Issuer = "delivery"
+                Password = "123456"
             };
 
             _loginCommandHandler.Handle(command);
@@ -99,8 +100,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var command = new LoginCommand() {
                 Email = "pvictorsys@gmail.com",
-                Password = "12345",
-                Issuer = "delivery"
+                Password = "12345"
             };
 
             Assert.That(() => _loginCommandHandler.Handle(command), Throws.TypeOf<UnauthorizedAccessException>());
@@ -134,7 +134,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         [Test]
         public void ShouldThrowSecurityTokenExpiredException()
         {
-            var handler = new GetUserByTokenQueryHandler(new LoginService());
+            var handler = new GetUserByTokenQueryHandler(new LoginService(new JwtTokenGeneratorStrategy(_jwtSecret)));
 
             Assert.That(() => handler.Handle(new GetUserByTokenQuery {
                 Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOGEzZGU5ZjQtZWFhOC00YzNkLWIxNWItMmIwOGE4N2UxMjliIiwiZXhwIjoxNTg2NjY1MTE0LCJpc3MiOiJkZWxpdmVyeSJ9.jC5FtPDwn4Qs9gz6hrgaXttoXA59y75N2mZbJjzg1oc"

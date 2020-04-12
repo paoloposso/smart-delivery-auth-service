@@ -24,7 +24,7 @@ namespace SmartDelivery.Auth.App.Command.Handlers
             if (user != null && !string.IsNullOrEmpty(user.Id))
             {
                 var login = new Login();
-                login.SetPayload(user.Id, command.Issuer, DateTime.Now.AddMinutes(30), user.Email);
+                login.SetPayload(user.Id, DateTime.Now.AddMinutes(30), user.Email);
 
                 command.Token = LoginService.GetToken(login);
             }

@@ -11,11 +11,15 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
 {
     public class JwtTokenGeneratorStrategy : ITokenGeneratorStrategy
     {
-        //TODO: move to config file
-        private string _secret => "sdhsaiuysf9doasjoshfuisdhfidfsdf9sd8fyhsfisdfguydfts7d6937";
+        private string _secret;
+
+        public JwtTokenGeneratorStrategy(string secret)
+        {
+            _secret = secret;
+        }
+
         public string GenerateToken(Payload payload) 
         {
-            //TODO: add secret to config
             var encodedSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(_secret));
 
             var claims = new[]
@@ -28,7 +32,6 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
             var secret = Convert.FromBase64String(encodedSecret);
 
             var tokenConfig = new JwtSecurityToken(
-               issuer: payload.Iss, //TODO: add to config file
                audience: null,
                claims: claims,
                expires: payload.Exp,
@@ -46,8 +49,7 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidIssuer = "delivery", //TODO: add to a config file
+                ValidateIssuer = false,
                 ValidateAudience = false
             };
 
@@ -55,7 +57,7 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
 
             var tok = (JwtSecurityToken)tokenSecure;
 
-            return new Payload(tok.Payload["sub"].ToString(), tok.Payload["iss"].ToString(), DateTime.Now, tok.Payload["unique_name"].ToString());
+            return new Payload(tok.Payload["sub"].ToString(), DateTime.Now, tok.Payload["unique_name"].ToString());
         }
     }
 }

@@ -17,9 +17,9 @@ namespace SmartDelivery.Auth.Domain.Services
 
         ITokenGeneratorStrategy _tokenGenerationStrategy;
 
-        public LoginService()
+        public LoginService(ITokenGeneratorStrategy tokenGenerationStrategy)
         {
-            _tokenGenerationStrategy = new JwtTokenGeneratorStrategy();
+            _tokenGenerationStrategy = tokenGenerationStrategy;
             TokenGenarationAlgorythm += _tokenGenerationStrategy.GenerateToken;
             GetPayloadByTokenAlgorythm += _tokenGenerationStrategy.GetPayloadByToken;
         }
@@ -45,8 +45,6 @@ namespace SmartDelivery.Auth.Domain.Services
 
             if (string.IsNullOrEmpty(login.Payload.Email))
                 sb.AppendLine("Email is required");
-            if (string.IsNullOrEmpty(login.Payload.Iss))
-                sb.AppendLine("Issuer is required");
             if (string.IsNullOrEmpty(login.Payload.Sub))
                 sb.AppendLine("Subject is required");
             if (login.Payload.Exp == null || login.Payload.Exp < DateTime.Now)

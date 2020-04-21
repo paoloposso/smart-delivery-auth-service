@@ -15,7 +15,7 @@ namespace SmartDelivery.Auth.Api
 
             AppSettings = new AppSettings
             {
-                MongoDbCnnString = Configuration.GetSection("ConnectionStrings").GetValue<string>("MongoConnection"),
+                MongoDbCnnString = Configuration.GetSection("ConnectionStrings").GetValue<string>("MongoDb"),
                 AllowedHosts = Configuration.GetValue<string>("AllowedHosts"),
                 JwtExpirationTimeInMinutes = Configuration.GetSection("JwtConfig").GetValue<int>("TokenExpirationInMinutes"),
                 JwtSecret = Configuration.GetSection("JwtConfig").GetValue<string>("Secret")

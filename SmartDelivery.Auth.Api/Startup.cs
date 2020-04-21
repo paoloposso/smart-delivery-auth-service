@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,8 @@ namespace SmartDelivery.Auth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Console.WriteLine($"Database: {Configuration.GetSection("ConnectionStrings").GetValue<string>("MongoDb")}");
 
             AppSettings = new AppSettings
             {
@@ -41,7 +44,7 @@ namespace SmartDelivery.Auth.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

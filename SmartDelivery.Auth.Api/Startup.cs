@@ -14,11 +14,12 @@ namespace SmartDelivery.Auth.Api
         {
             Configuration = configuration;
 
-            Console.WriteLine($"Database: {Configuration.GetSection("ConnectionStrings").GetValue<string>("MongoDb")}");
+            Console.WriteLine($"Database: {Configuration.GetSection("ConnectionStrings").GetValue<string>("Mongo")}");
+            Console.WriteLine($"Secret: {Configuration.GetSection("JwtConfig").GetValue<string>("Secret")}");
 
             AppSettings = new AppSettings
             {
-                MongoDbCnnString = Configuration.GetSection("ConnectionStrings").GetValue<string>("MongoDb"),
+                MongoDbCnnString = Configuration.GetSection("ConnectionStrings").GetValue<string>("Mongo"),
                 AllowedHosts = Configuration.GetValue<string>("AllowedHosts"),
                 JwtExpirationTimeInMinutes = Configuration.GetSection("JwtConfig").GetValue<int>("TokenExpirationInMinutes"),
                 JwtSecret = Configuration.GetSection("JwtConfig").GetValue<string>("Secret")

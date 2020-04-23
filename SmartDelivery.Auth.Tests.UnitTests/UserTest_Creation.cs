@@ -24,7 +24,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
 
         public UserTest_Creation()
         {
-            var cnnString = "mongodb://192.168.99.100:27017/SmartDeliveryAuthTestDb";
+            var cnnString = "mongodb://192.168.99.100:27017/TestDb";
 
             _userRepository = new UserRepository(cnnString);
             _createUserCommand = new CreateUserCommandHandler(_userRepository);

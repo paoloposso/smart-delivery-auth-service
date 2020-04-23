@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmartDelivery.Auth.CrossCutting.DI;
+using Microsoft.OpenApi.Models;
 
 namespace SmartDelivery.Auth.Api
 {
@@ -34,6 +35,11 @@ namespace SmartDelivery.Auth.Api
         {
             services.AddControllers();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+
             new DependencyInjectionContainer(AppSettings).Register(services);
         }
 
@@ -46,6 +52,14 @@ namespace SmartDelivery.Auth.Api
             }
 
             //app.UseHttpsRedirection();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 

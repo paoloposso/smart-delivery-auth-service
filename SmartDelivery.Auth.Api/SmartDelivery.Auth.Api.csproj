@@ -6,6 +6,11 @@
     <ProjectReference Include="..\SmartDelivery.Auth.App.Query\SmartDelivery.Auth.App.Query.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.3.3" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>

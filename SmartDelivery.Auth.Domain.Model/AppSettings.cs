@@ -1,4 +1,4 @@
-namespace SmartDelivery.Auth.CrossCutting.DI
+namespace SmartDelivery.Auth.Domain.Model
 {
     public class AppSettings
     {

@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using SmartDelivery.Auth.Domain.Model;
 
 namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
 {
@@ -6,9 +7,9 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
     {
         protected IMongoDatabase _database;
 
-        public BaseRepository(string connectionString)
+        public BaseRepository(AppSettings appSettings)
         {
-            var mongoUrl = new MongoUrl(connectionString);
+            var mongoUrl = new MongoUrl(appSettings.MongoDbCnnString);
             _database = new MongoClient(mongoUrl).GetDatabase(mongoUrl.DatabaseName);
         }
     }

@@ -26,7 +26,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         {
             var cnnString = "mongodb://192.168.99.100:27017/TestDb";
 
-            _userRepository = new UserRepository(cnnString);
+            _userRepository = new UserRepository(new AppSettings{ MongoDbCnnString = cnnString });
             _createUserCommand = new CreateUserCommandHandler(_userRepository);
             _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService(new JwtTokenGeneratorStrategy(_jwtSecret)));
 

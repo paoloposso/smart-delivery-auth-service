@@ -12,7 +12,7 @@ namespace SmartDelivery.Auth.Infrastructure.Repositories.MongoDb
         private IAdapter<User, UserEntity> _adapter;
         IMongoCollection<UserEntity> _collection;
 
-        public UserRepository(string connectionString) : base(connectionString)
+        public UserRepository(AppSettings appSettings) : base(appSettings)
         {
             _adapter = new UserAdapter();
 

@@ -33,6 +33,7 @@ namespace SmartDelivery.Auth.Api.Controllers
         {
             try
             {
+                _logger.LogInformation("api/Login");
                 _loginCommandHandler.Handle(command);
                 return Ok(command.Token);
             }
@@ -40,13 +41,26 @@ namespace SmartDelivery.Auth.Api.Controllers
             {
                 return Unauthorized();
             }
+            catch (Exception ex)
+            {
+                // _logger.LogError()
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpPost]
         public IActionResult Post([FromBody]CreateUserCommand command)
         {
-            _createUserCommandHandler.Handle(command);
-            return Ok(command);
+            try
+            {
+                _createUserCommandHandler.Handle(command);
+                return Ok(command);
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogError()
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpGet]
@@ -69,6 +83,11 @@ namespace SmartDelivery.Auth.Api.Controllers
             catch (SecurityTokenExpiredException)
             {
                 return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogError()
+                return StatusCode(500, ex);
             }
         }
     }

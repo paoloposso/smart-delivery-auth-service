@@ -4,6 +4,7 @@ using SmartDelivery.Auth.App.Command.Dto;
 using SmartDelivery.Auth.App.Command.Handlers;
 using SmartDelivery.Auth.App.Query.Dto;
 using SmartDelivery.Auth.App.Query.Handlers;
+using SmartDelivery.Auth.Domain.Model;
 using SmartDelivery.Auth.Domain.Repositories;
 using SmartDelivery.Auth.Domain.Services;
 using SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration;
@@ -24,7 +25,7 @@ namespace SmartDelivery.Auth.CrossCutting.DI
         {
             RegisterCommands(services);
             RegisterServices(services);
-            services.AddSingleton<IUserRepository>(r => new UserRepository(_appSettings.MongoDbCnnString)); 
+            services.AddSingleton<IUserRepository, UserRepository>(); 
             services.AddTransient<AppSettings>(r => _appSettings);
         }
 

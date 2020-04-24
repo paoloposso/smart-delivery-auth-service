@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmartDelivery.Auth.CrossCutting.DI;
 using Microsoft.OpenApi.Models;
+using SmartDelivery.Auth.Domain.Model;
 
 namespace SmartDelivery.Auth.Api
 {
@@ -14,9 +15,6 @@ namespace SmartDelivery.Auth.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            Console.WriteLine($"Database: {Configuration.GetSection("ConnectionStrings").GetValue<string>("Mongo")}");
-            Console.WriteLine($"Secret: {Configuration.GetSection("JwtConfig").GetValue<string>("Secret")}");
 
             AppSettings = new AppSettings
             {

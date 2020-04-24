@@ -11,16 +11,16 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
 {
     public class JwtTokenGeneratorStrategy : ITokenGeneratorStrategy
     {
-        private string _secret;
+        private AppSettings _appSettings;
 
-        public JwtTokenGeneratorStrategy(string secret)
+        public JwtTokenGeneratorStrategy(AppSettings appSettings)
         {
-            _secret = secret;
+            _appSettings = appSettings;
         }
 
         public string GenerateToken(Payload payload) 
         {
-            var encodedSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(_secret));
+            var encodedSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(_appSettings.JwtSecret));
 
             var claims = new[]
             {
@@ -42,7 +42,7 @@ namespace SmartDelivery.Auth.Domain.Services.Strategies.TokenGeneration
 
         public Payload GetPayloadByToken(string token)
         {
-            var key = Encoding.ASCII.GetBytes(_secret);
+            var key = Encoding.ASCII.GetBytes(_appSettings.JwtSecret);
             var handler = new JwtSecurityTokenHandler();
 
             var validations = new TokenValidationParameters

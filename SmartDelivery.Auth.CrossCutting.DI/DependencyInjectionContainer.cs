@@ -32,7 +32,7 @@ namespace SmartDelivery.Auth.CrossCutting.DI
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<LoginService>();
-            services.AddTransient<ITokenGeneratorStrategy>(s => new JwtTokenGeneratorStrategy(_appSettings.JwtSecret));
+            services.AddTransient<ITokenGeneratorStrategy, JwtTokenGeneratorStrategy>();
         }
 
         public void RegisterCommands(IServiceCollection services)

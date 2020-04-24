@@ -28,7 +28,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
 
             _userRepository = new UserRepository(new AppSettings{ MongoDbCnnString = cnnString });
             _createUserCommand = new CreateUserCommandHandler(_userRepository);
-            _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService(new JwtTokenGeneratorStrategy(_jwtSecret)));
+            _loginCommandHandler = new LoginCommandHandler(_userRepository, new LoginService(new JwtTokenGeneratorStrategy(new AppSettings { JwtSecret = _jwtSecret })));
 
             var mongoUrl = new MongoUrl(cnnString);
 
@@ -134,7 +134,7 @@ namespace SmartDelivery.Auth.Tests.UnitTests
         [Test]
         public void ShouldThrowSecurityTokenExpiredException()
         {
-            var handler = new GetUserByTokenQueryHandler(new LoginService(new JwtTokenGeneratorStrategy(_jwtSecret)));
+            var handler = new GetUserByTokenQueryHandler(new LoginService(new JwtTokenGeneratorStrategy(new AppSettings { JwtSecret = _jwtSecret })));
 
             Assert.That(() => handler.Handle(new GetUserByTokenQuery {
                 Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InB2aWN0b3JzeXNAZ21haWwuY29tIiwic3ViIjoiNWU5MjhmNWZkNDkwYzgyZWY4NTQ1MDBjIiwianRpIjoiOGEzZGU5ZjQtZWFhOC00YzNkLWIxNWItMmIwOGE4N2UxMjliIiwiZXhwIjoxNTg2NjY1MTE0LCJpc3MiOiJkZWxpdmVyeSJ9.jC5FtPDwn4Qs9gz6hrgaXttoXA59y75N2mZbJjzg1oc"
